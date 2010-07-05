@@ -1,0 +1,21 @@
+-*- markdown -*-
+
+# Brookie
+
+Brookie is a small and simple Django application which makes it easy for you to
+create *invoices* and *quotes* for your customers in PDF. This all through the Django admin interface.
+
+It was created in a 2-day sprint by Bread and Pepper for it's own use. We decided
+to release it to the community so other small companies can manage their invoices and quotes.
+
+# Requirements
+
+- Reportlab
+- Pisa [[link](http://pypi.python.org/pypi/pisa/3.0.10)]
+- Django WMD-Editor [[link](http://github.com/stephrdev/django-admin-wmdeditor/tree/master)]
+
+# Todo
+
+- Improve jQuery enhancements.
+- Default PDF template when specialised are not available.
+- Better documentation.

@@ -1,0 +1,31 @@
+{% extends "admin/change_form.html" %}
+{% load i18n %}
+{% load i18n %}
+{% block object-tools %}
+{% if change %}{% if not is_popup %}
+<ul class="object-tools">
+    <li><a href="history/" class="historylink">{% trans "History" %}</a></li>
+    <li><a href="{% url generate-invoice object_id %}" class="historylink">{% trans "Generate PDF" %}</a></li>
+</ul>
+{% endif %}{% endif %}
+{% endblock %}
+
+{% block after_related_objects %}
+<form enctype="multipart/form-data" action="" method="post" id="invoice_form">
+<fieldset class="module">
+    <h2>Subtotal</h2>
+    <table width="100%">
+        <thead>
+            <tr>
+                <th style="text-align:right;">{% trans 'Subtotal (excl. tax)' %}</th>
+            </tr>
+        </thead>
+        <tr>
+            <td class="totals" align="right">
+                <input id="totals_subtotal" type="text" style="width: 150px; font-weight: bold; text-align: right;" class="vIntegerField" value="{{ invoice.total }}" name="totals_subtotal" />
+            </td>
+        </tr>
+    </table>
+</fieldset>
+</form>
+{% endblock %}

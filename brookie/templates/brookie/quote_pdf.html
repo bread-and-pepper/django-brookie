@@ -1,0 +1,170 @@
+{% load monetize markup %}
+<html>
+<style>
+@page {
+    margin: 1cm;
+    margin-bottom: 0cm;
+    margin-top: 4cm;
+    size: a4 portrait;
+    background-image: url('img/quote_back.png');
+    font-family: Helvetica;
+    @frame footer {
+        -pdf-frame-content: footerContent;
+        bottom: 0cm;
+        margin-left: 1cm;
+        margin-right: 1cm;
+        height: 2cm; 
+    }
+}
+
+h1 {
+    color: #790000;
+    font-size: 48px;
+    font-weight: 8;
+    padding-top: 5cm;
+}
+
+h2 {
+    color: #790000;
+    font-size: 16px;
+    line-height: 18px;
+}
+
+h3 {
+    color: #790000;
+    font-size: 14px;
+}
+
+p {
+    font-size: 14px;
+    line-height: 18px;
+}
+
+div#specification{
+    margin-top: 20px;
+}
+
+div#specification td{
+    vertical-align: middle;
+    padding-top: 5px;
+    padding-bottom: 3px;
+}
+
+table {
+    margin-top: 20px;
+}
+
+table td {
+    vertical-align: top;
+    padding: 2px 0;
+    height: 16px;
+    font-size: 14px;
+}
+
+table td.amount{
+    text-align: right;
+    padding-right: 2px;
+}
+
+table td.total{
+    padding-top: 5px;
+}
+
+table td.signature {
+    padding-top: 50px;
+}
+
+table th {
+    text-align: left;
+}
+
+tr.uneven {
+    background-color: #efefef;
+}
+
+.price_info {
+    font-style: italic;
+    font-size: 10px;
+}
+
+div#footerContent {
+    padding-top: 45px;
+    height: 2cm;
+    color: #FFF;
+    font-size: 7px;
+    text-align: center;
+}
+</style>
+
+<body>
+  <h1>Quote: {{ client.company }}</h1>
+  <table width="50%">
+    <tr>
+      <td>
+        Quote ID<br />
+        Date<br />
+        Expiration date
+      </td>
+      <td width="70%">
+        {{ quote.quote_id }}<br />
+        {{ quote.date|date:"d F, Y" }}<br />
+        {{ quote.exp_date|date:"d F, Y" }}
+      </td>
+    </tr>
+  </table>
+    
+  <pdf:nextpage />
+  {{ quote.content|markdown }}
+
+  <div id="specification">
+        <table width="100%">
+            {% for item in items %}
+            <tr class="{% cycle 'even' 'uneven' %}">
+                <td style="padding-left: 2px;">{{ item.description }} {% if item.date %}<span class="date">({{ item.date|date:"d-m-Y" }})</span>{% endif %}</td>
+                <td class="time">{% if item.time %}{{ item.time }} min.{% endif %}</td>
+                <td class="amount total">&euro; {{ item.amount|euro }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+    <div id="totals">
+        <table width="100%">
+            <tr>
+                <td width="60%">&nbsp;</td>
+                <td width="20%" class="total"><strong>Total</strong></td>
+                <td width="20%" class="amount total" style="border-top: 1px solid #333;">&euro; {{ quote.total|euro }}</td>
+            </tr>
+        </table>
+    </div>
+  <p class="price_info">The listed prices are without V.A.T.</p>
+
+  <table width="100%">
+    <tr>
+      <th width="60%"><h3>When agreed, please sign below:</h3></th>
+      <th width="40%"></th>
+    </tr>
+    <tr>
+      <td>
+        {{ client.first_name }} {{ client.last_name }}<br />
+        {{ client.address }}<br />
+        {{ client.zipcode }} {{ client.city }}<br />
+        {{ client.country }}
+      </td>
+      <td>
+        Your business<br />
+        Your street 34<br />
+        Your zipcode<br />
+        Your country<br />
+      </td>
+    </tr>
+    <tr>
+      <td class="signature">............................</td>
+      <td class="signature">............................</td>
+    </tr>
+  </table>
+
+  <div id="footerContent">
+    <p>Create a nice footer here.</p>
+  </div>
+</body>
+</html>

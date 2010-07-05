@@ -1,0 +1,261 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2009-09-06 11:07+0200\n"
+"PO-Revision-Date: 2009-09-06 11:14+0100\n"
+"Last-Translator: Petar Radosevic <petar@breadandpepper.com>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: admin.py:24
+#, python-format
+msgid " <strong>(%s days late.)</strong>"
+msgstr "<strong>(%s dagen te laat.)</strong>"
+
+#: admin.py:27
+#, python-format
+msgid " (%s days left.)"
+msgstr "(%s dagen over)"
+
+#: brookie_settings.py:18
+msgid "Under development"
+msgstr "In ontwikkeling"
+
+#: brookie_settings.py:19
+#: brookie_settings.py:39
+msgid "Send"
+msgstr "Verzonden"
+
+#: brookie_settings.py:20
+msgid "Reminded"
+msgstr "Herinnerd"
+
+#: brookie_settings.py:21
+msgid "Payed"
+msgstr "Betaald"
+
+#: brookie_settings.py:27
+msgid "Euro"
+msgstr "Euro"
+
+#: brookie_settings.py:28
+msgid "Pound"
+msgstr "Pond"
+
+#: brookie_settings.py:29
+msgid "Dollar"
+msgstr "Dollar"
+
+#: brookie_settings.py:38
+msgid "Draft"
+msgstr "Opzet"
+
+#: brookie_settings.py:40
+msgid "Declined"
+msgstr "Afgewezen"
+
+#: brookie_settings.py:41
+msgid "Accepted"
+msgstr "Geaccepteerd"
+
+#: models.py:13
+msgid "company"
+msgstr "bedrijf"
+
+#: models.py:14
+msgid "first name"
+msgstr "voornaam"
+
+#: models.py:15
+msgid "last name"
+msgstr "achternaam"
+
+#: models.py:16
+msgid "address"
+msgstr "adres"
+
+#: models.py:17
+msgid "zipcode"
+msgstr "postcode"
+
+#: models.py:18
+msgid "city"
+msgstr "stad"
+
+#: models.py:19
+msgid "country"
+msgstr "land"
+
+#: models.py:22
+#: models.py:35
+msgid "client"
+msgstr "klant"
+
+#: models.py:23
+msgid "clients"
+msgstr "klanten"
+
+#: models.py:36
+#: models.py:115
+#: models.py:154
+msgid "date"
+msgstr "datum"
+
+#: models.py:37
+msgid "currency"
+msgstr "valuta"
+
+#: models.py:40
+#: models.py:116
+msgid "status"
+msgstr "status"
+
+#: models.py:42
+#: models.py:119
+msgid "hourly rate"
+msgstr "uurloon"
+
+#: models.py:50
+msgid "invoice"
+msgstr "rekening"
+
+#: models.py:51
+msgid "invoices"
+msgstr "rekeningen"
+
+#: models.py:91
+#: models.py:106
+msgid "name"
+msgstr "naam"
+
+#: models.py:92
+msgid "abbrevation"
+msgstr "afkorting"
+
+#: models.py:93
+msgid "percentage"
+msgstr "percentage"
+
+#: models.py:98
+msgid "tax"
+msgstr "belasting"
+
+#: models.py:99
+msgid "taxes"
+msgstr "belastingen"
+
+#: models.py:107
+#: models.py:117
+msgid "content"
+msgstr "inhoud"
+
+#: models.py:107
+msgid "The above will be selectable when creating a new Quote. Markdown is enabled."
+msgstr "Bovenstaande kan geselecteerd worden bij een nieuwe offerte. Markdown is mogelijk."
+
+#: models.py:114
+#: models.py:125
+msgid "quote"
+msgstr "offerte"
+
+#: models.py:126
+msgid "quotes"
+msgstr "offertes"
+
+#: models.py:155
+msgid "description"
+msgstr "beschrijving"
+
+#: models.py:156
+msgid "time in minutes"
+msgstr "tijd in minuten"
+
+#: models.py:157
+msgid "amount"
+msgstr "bedrag"
+
+#: models.py:159
+msgid "content type"
+msgstr "content type"
+
+#: models.py:160
+msgid "object id"
+msgstr "object id"
+
+#: models.py:164
+msgid "item"
+msgstr "item"
+
+#: models.py:165
+msgid "items"
+msgstr "items"
+
+#: templates/admin/index.html:19
+#, python-format
+msgid "Models available in the %(name)s application."
+msgstr "Modellen beschikbaar in the %(name)s applicatie."
+
+#: templates/admin/index.html:20
+#, python-format
+msgid "%(name)s"
+msgstr "%(name)s"
+
+#: templates/admin/index.html:30
+msgid "Add"
+msgstr "Toevoegen"
+
+#: templates/admin/index.html:36
+msgid "Change"
+msgstr "Wijzigen"
+
+#: templates/admin/index.html:46
+msgid "You don't have permission to edit anything."
+msgstr "Je hebt geen toestemming om iets te veranderen."
+
+#: templates/admin/index.html:54
+msgid "Recent Actions"
+msgstr "Recente acties"
+
+#: templates/admin/index.html:55
+msgid "My Actions"
+msgstr "Mijn acties"
+
+#: templates/admin/index.html:59
+msgid "None available"
+msgstr "Geen beschikbaar"
+
+#: templates/admin/index.html:73
+msgid "Unknown content"
+msgstr "Onbekende inhoud"
+
+#: templates/admin/brookie/invoice/change_form.html:7
+#: templates/admin/brookie/quote/change_form.html:8
+msgid "History"
+msgstr "Geschiedenis"
+
+#: templates/admin/brookie/invoice/change_form.html:8
+#: templates/admin/brookie/quote/change_form.html:9
+msgid "Generate PDF"
+msgstr "Genereer PDF"
+
+#: templates/admin/brookie/invoice/change_form.html:20
+#: templates/admin/brookie/quote/change_form.html:44
+msgid "Subtotal (excl. tax)"
+msgstr "Subtotaal (excl. belasting)"
+
+#: templates/admin/brookie/quote/change_form.html:10
+msgid "Copy to Invoice"
+msgstr "Kopieeer naar rekeningen"
+
+#: templates/admin/brookie/quote/change_form.html:31
+msgid "Insert"
+msgstr "Invoegen"
+

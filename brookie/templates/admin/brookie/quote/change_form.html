@@ -1,0 +1,55 @@
+{% extends "admin/change_form.html" %}
+{% load i18n %}
+{% load i18n %}
+
+{% block object-tools %}
+{% if change %}{% if not is_popup %}
+<ul class="object-tools">
+    <li><a href="history/" class="historylink">{% trans "History" %}</a></li>
+    <li><a href="{% url generate-quote object_id %}" class="historylink">{% trans "Generate PDF" %}</a></li>
+    <li><a href="{% url quote-to-invoice object_id %}" class="historylink">{% trans "Copy to Invoice" %}</a></li>
+</ul>
+{% endif %}{% endif %}
+{% endblock %}
+
+{% block after_related_objects %}
+<form enctype="multipart/form-data" action="" method="post" id="invoice_form">
+<fieldset class="module">
+    <h2>Default parts</h2>
+    <table width="100%">
+        <thead>
+            <tr>
+                <th width="10%">Name</th>
+                <th>Content</th>
+                <th width="200px;"><a href="#" id="part-insert-all">Insert all</a></th>
+            </tr>
+        </thead>
+        {% for part in parts %}
+        <tr id="all-parts" class="{% cycle 'row1' 'row2' %}">
+            <td><strong>{{ part.name }}</strong></td>
+            <td><textarea id="part-content-{{ part.id }}" cols=120>{{ part.content }}</textarea></td>
+            <th><a id="part-link-{{ part.id }}" href="#" class="insert-part-link">{% trans "Insert" %}</a></td>
+        </tr>
+        {% endfor %}
+    </table>
+</fieldset>
+</form>
+
+<form enctype="multipart/form-data" action="" method="post" id="invoice_form">
+<fieldset class="module">
+    <h2>Subtotal</h2>
+    <table width="100%">
+        <thead>
+            <tr>
+                <th style="text-align:right;">{% trans 'Subtotal (excl. tax)' %}</th>
+            </tr>
+        </thead>
+        <tr>
+            <td class="totals" align="right">
+                <input id="totals_subtotal" type="text" style="width: 150px; font-weight: bold; text-align: right;" class="vIntegerField" value="{{ invoice.total }}" name="totals_subtotal" />
+            </td>
+        </tr>
+    </table>
+</fieldset>
+</form>
+{% endblock %}
