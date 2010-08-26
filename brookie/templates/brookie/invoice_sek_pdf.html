@@ -1,0 +1,214 @@
+{% load monetize %}
+<html>
+<head>
+	<meta http-equiv="Content-type" content="text/html; charset=utf-8">
+</head>
+<style>
+@page {
+    margin: 1cm;
+    margin-bottom: 0cm;
+    margin-top: 3cm;
+    size: a4 portrait;
+    background-image: url('img/letter_head.png');
+    @frame footer {
+        -pdf-frame-content: footerContent;
+        bottom: 0cm;
+        margin-left: 1cm;
+        margin-right: 1cm;
+        height: 2cm; 
+    }
+    @frame simple {
+        -pdf-frame-content: simple;
+        bottom: 2.0cm;
+        height: 2.5cm;
+        margin-left: 1cm;
+        margin-right: 1cm;
+    }
+}
+
+div#client-details{
+    font-size: 120%;
+}
+
+div#specification{
+    margin-top: 20px;
+}
+
+div#specification td{
+    vertical-align: middle;
+    padding-top: 5px;
+    padding-bottom: 3px;
+}
+
+
+table td {
+    vertical-align: top;
+    padding: 2px 0;
+    height: 16px;
+}
+
+table td.amount{
+    text-align: right;
+    padding-right: 2px;
+}
+
+table td.total{
+    padding-top: 5px;
+}
+
+table th {
+    text-align: left;
+    border-bottom: 1px solid #000;
+}
+
+tr.uneven {
+    background-color: #efefef;
+}
+
+div#footerContent {
+    color: #777777;
+}
+
+div#footerContent a {
+    color: #790000;
+    text-decoration: none;
+}
+
+.date {
+    font-size: 90%;
+    color: #777;
+}
+
+div#totals {
+    margin: 20px 0;
+}
+
+div#simple td {
+    margin-left: 10px;
+    background-color: #efefef;
+}
+
+div#simple tr {
+    border-right: 1px solid #333;
+}
+
+div#simple table{
+    text-align: center;
+    border-left: 1px solid #999;
+}
+
+</style>
+
+<body>
+    <h1>Invoice</h1>
+    <div id="client-details">
+        <table>
+            <tr>
+                <td width="60%">
+                    <strong>{{ client.company }}</strong><br />
+                    {% if client.first_name and client.last_name %}
+                    attn. {{ client.first_name }} {{ client.last_name }}<br />
+                    {% endif %}
+                    {{ client.address }}<br />
+                    {{ client.zipcode }} {{ client.city }}<br />
+                    {{ client.country }}<br />
+                </td>
+                <td width="20%">
+                    <strong>Invoice number</strong><br />
+                    <strong>Date</strong><br />
+                    <strong>Due date</strong>
+                </td>
+                <td width="20%">
+                    : {{ invoice.invoice_id }}<br />
+                    : {{ invoice.date|date:"d F, Y" }}<br />
+                    : {{ invoice.exp_date|date:"d F, Y" }}<br />
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div id="specification">
+        <table width="100%">
+            <tr>
+                <th width="60%">Description</th>
+                <th width="20%">{% if items.0.time %}Time{% endif %}</th>
+                <th width="20%">Amount</th>
+            </tr>
+            {% for item in items %}
+            <tr class="{% cycle 'even' 'uneven' %}"{% if forloop.last %} style="border-bottom: 1px solid #000;"{% endif %}>
+                <td style="padding-left: 2px;">{{ item.description }} {% if item.date %}<span class="date">({{ item.date|date:"d-m-Y" }})</span>{% endif %}</td>
+                <td class="time">{% if item.time %}{{ item.time }} min.{% endif %}</td>
+                <td class="amount total">kr {{ item.amount|sek }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+    <div id="totals">
+        <table width="100%">
+            <tr>
+                <td width="60%">&nbsp;</td>
+                <td width="20%">Subtotal</td>
+                <td width="20%" class="amount">kr {{ invoice.subtotal|sek }}</td>
+            </tr>
+            <tr>
+                <td width="60%">&nbsp;</td>
+                <td width="20%">Total {{ invoice.tax.percentage }}% {{ invoice.tax.abbrevation }}</td>
+                <td width="20%" class="amount" style="border-bottom: 1px solid #333;">kr {{ invoice.total_tax|sek }}</td>
+            </tr> 
+            <tr>
+                <td width="60%">&nbsp;</td>
+                <td width="20%" class="total"><strong>Total</strong></td>
+                <td width="20%" class="amount total">kr {{ invoice.total|sek }}</td>
+            </tr>
+        </table>
+    </div>
+    <div id="simple">
+        <table>
+            <tr>
+                <td width="33%" style="padding-top: 5px;">IBAN</th>
+                <td width="34%" style="padding-top: 5px;">Invoice ID</th>
+                <td width="33%" style="padding-top: 5px;">Amount SEK</th>
+            </tr>
+            <tr>
+                <td><strong>NL28INGB0004954664</strong></td>
+                <td><strong>{{ invoice.invoice_id }}</strong></td>
+                <td><strong>{{ invoice.total|sek }}</strong></td>
+            </tr>
+        </table>
+        <p style="text-align:center;">The invoice is to be paid before <strong>{{ invoice.exp_date|date:"F jS, Y" }}</strong> with the mention of the invoice id.</p>
+    </div>
+    <div id="footerContent">
+        <table>
+            <tr>
+                <td width="33%">
+                    Bread &amp; Pepper<br />
+                    Hansenstraat 93<br />
+                    2316 BG Leiden<br />
+                    The Netherlands<br />
+                </td>
+                <td width="5%">
+                    Tel<br />
+                    Web<br />
+                    Email<br />
+                </td>
+                <td width="29%">
+                    06-14499650<br />
+                    <a href="http://breadandpepper.com">www.breadandpepper.com</a><br />
+                    hello@breadandpepper.com
+                </td>
+                <td width="8%">
+                    Bank ING<br />
+                    IBAN<br />
+                    BTW<br />
+                    KvK<br />
+                </td>
+                <td width="25%">
+                    4954664<br />
+                    NL28INGB0004954664<br />
+                    NL 8207.29.449.B01<br />
+                    27343027
+                </td>
+            </tr>
+        </table>
+    </div>
+</body>
+</html>
