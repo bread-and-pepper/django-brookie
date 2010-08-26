@@ -7,7 +7,7 @@ from django.contrib.contenttypes import generic
 from django.core.urlresolvers import reverse
 
 from brookie.models import Client, Invoice, Tax, Quote, Item, QuotePart
-from brookie.templatetags.monetize import euro, pound
+from brookie.templatetags.monetize import euro, pound, sek
 from brookie.views import generate_pdf
 from brookie import brookie_settings as br_settings
 
@@ -36,13 +36,15 @@ is_expired.short_description = _('Payed?')
 is_expired.allow_tags = True
 
 def total_monetized(self):
-    """ Shows currency in admin, currently only euro's, pounds and dollars """
+    """ Shows currency in admin, currently only euro's, pounds, sek and dollars """
     if self.currency == 'euro':
         return '&euro; %s' % euro(self.total)
     elif self.currency == 'gbp':
         return '&pound; %s' % pound(self.total)
     elif self.currency == 'dollar':
         return '&dollar; %s' % pound(self.total)
+    elif self.currency == 'sek':
+        return '&kronor; %s' % sek(self.total)
 total_monetized.short_description = _("Total amount")
 total_monetized.allow_tags = True
 

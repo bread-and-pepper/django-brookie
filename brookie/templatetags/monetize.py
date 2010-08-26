@@ -22,3 +22,8 @@ def euro(value):
 def pound(value):
     """ Same as above, but than pounds. """
     return beautify(value, '.') 
+
+@register.filter(name="sek")
+def sek(value):
+    """ Same as above, but than sek. """
+    return beautify(value, '.') 
