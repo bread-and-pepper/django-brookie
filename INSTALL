@@ -11,6 +11,7 @@ Subversion checkout.
 
 You also need to copy or symlink the ``media/brookie`` directory inside
 your applications media folder.
+And add (r'^brookie/', include('brookie.urls')), to your urls.
 
 Note that this application requires Python 2.3 or later, and a
 functional installation of Django 1.0 or newer. You can obtain Python from
