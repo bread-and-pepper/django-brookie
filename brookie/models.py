@@ -43,7 +43,7 @@ class Invoice(models.Model):
     status = models.IntegerField(_('status'), choices=settings.INVOICE_STATUS_CHOICES)
     tax = models.ForeignKey('Tax', blank=True, null=True)
     hourly_rate = models.DecimalField(_('hourly rate'),
-                                      max_digits=4,
+                                      max_digits=6,
                                       decimal_places=2,
                                       default=settings.INVOICE_HOURLY_RATE)
     items = generic.GenericRelation('Item')
@@ -130,7 +130,7 @@ class Quote(models.Model):
     content = models.TextField(_('content'))
     items = generic.GenericRelation('Item')
     hourly_rate = models.DecimalField(_('hourly rate'),
-                                      max_digits=4,
+                                      max_digits=6,
                                       decimal_places=2,
                                       default=settings.INVOICE_HOURLY_RATE)
 
