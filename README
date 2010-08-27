@@ -11,7 +11,7 @@ to release it to the community so other small companies can manage their invoice
 # Requirements
 
 - Reportlab
-- Pisa [[link](http://pypi.python.org/pypi/pisa/3.0.10)]
+- Pisa 3 [[link](http://pypi.python.org/pypi/pisa/)]
 - Django WMD-Editor [[link](http://github.com/stephrdev/django-admin-wmdeditor/tree/master)]
 
 # Todo
