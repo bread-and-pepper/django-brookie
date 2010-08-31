@@ -176,6 +176,7 @@ class Item(models.Model):
     class Meta:
         verbose_name = _('item')
         verbose_name_plural = _('items')
-
+        ordering = ['date']
+    
     def __unicode__(self):
         return '%s' % self.description
