@@ -1,0 +1,27 @@
+# Setup.py
+*.egg
+*egg-info
+# Documentation
+_build
+build
+.Python
+
+# Virtual environment
+bin/
+lib/
+lib64
+include/
+src/
+dist/
+
+# Production server
+logs/
+pip-log.txt
+
+# Testing
+.coverage
+
+# Demo project
+demo_project/demo_project.db
+demo_project/settings_production.py
+demo_project/media/admin
