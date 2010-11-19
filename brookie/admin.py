@@ -133,7 +133,7 @@ class InvoiceAdmin(admin.ModelAdmin):
                     invoice = invoice_list[0]
                 except:
                     # There are no numbered invoices
-                    invoice_no = getattr(br_settings, 'START_NUMBER', 1)
+                    invoice_no = getattr(br_settings, 'INVOICE_START_NUMBER', 1)
                 else:
                     invoice_no = invoice.invoice_no + 1
                 obj.invoice_no = invoice_no

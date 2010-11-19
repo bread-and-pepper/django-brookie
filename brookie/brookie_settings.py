@@ -25,7 +25,10 @@ INVOICE_STATUS_CHOICES =  getattr(settings, 'INVOICE_STATUS_CHOICES', ((1, ugett
 
 # When the invoice is finished you will be able to download it in the admin
 INVOICE_FINISH_STATUS = getattr(settings, 'INVOICE_FINISH_STATUS', (2, 3, 4))
-# In what valuta do you want your invoices to be available.  
+
+# Invoice numbering starts at number
+INVOICE_START_NUMBER =  getattr(settings, 'INVOICE_START_NUMBER', 1)
+# In what valuta do you want your invoices to be available.
 
 # Note: Each valuta requires it's own template. For ex., pounds will look
 # for a template called ``invoice_gbp_pdf.html``.
