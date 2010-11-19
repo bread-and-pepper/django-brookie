@@ -8,7 +8,7 @@ $(document).ready(function() {
     });
 
     // Each time the time changes, update the subtotal for the item.
-    $('.inline-group .vIntegerField').live('keyup', function(){
+    $('#brookie-item-content_type-object_id-group .vIntegerField').live('keyup', function(){
         var hourly_rate = $('#id_hourly_rate').val();
         var amount = $(this).val() * (hourly_rate / 60);
         $(this).parent().next().find('input').val(amount.toFixed(2));
