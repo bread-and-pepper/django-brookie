@@ -26,7 +26,7 @@ def is_expired(self):
         if days_left <= 0:
             image = 'img/admin/icon_error.gif'
             extra = _(' <strong>(%s days late.)</strong>' % (days_left * -1))
-        else: 
+        else:
             image = 'img/admin/icon_clock.gif'
             extra = _(" (%s days left.)" % days_left)
     return '<img src="%(admin_media)s%(image)s" />%(extra)s' % {'admin_media': settings.ADMIN_MEDIA_PREFIX,
@@ -92,7 +92,7 @@ class QuoteAdmin(WmdEditorModelAdmin):
     inlines = [QuoteItemInline, ]
 
     class Media:
-        js = ('http://ajax.googleapis.com/ajax/libs/jquery/1.4.1/jquery.min.js', 'brookie/js/brookie.js')
+        js = ('http://ajax.googleapis.com/ajax/libs/jquery/1.4.3/jquery.min.js', 'brookie/js/brookie.js')
 
 class ClientAdmin(admin.ModelAdmin):
     list_display = ('company', )
@@ -103,18 +103,43 @@ class TaxAdmin(admin.ModelAdmin):
     pass
 
 class InvoiceAdmin(admin.ModelAdmin):
-    list_display = ('invoice_id', 'client', 'status', 'date', total_monetized, is_expired, pdf_invoice)
+    list_display = ('client', 'status', 'date', total_monetized, is_expired, pdf_invoice)
     list_filter = ('status', 'client')
+    exclude = ('invoice_no',)
     ordering = ('id', )
     search_fields = ['client__company', ]
+    readonly_fields = ()
     inlines = [ItemInline,]
 
     class Media:
-        js = ('http://ajax.googleapis.com/ajax/libs/jquery/1.4.1/jquery.min.js', 'brookie/js/brookie.js')
+        js = ('http://ajax.googleapis.com/ajax/libs/jquery/1.4.3/jquery.min.js', 'brookie/js/brookie.js')
+
+    def get_readonly_fields(self, request, obj=None):
+        readonly = super(InvoiceAdmin, self).get_readonly_fields(request, obj)
+
+        # if the invoice is send you can no longer alter it
+        if obj.status in br_settings.INVOICE_FINISH_STATUS:
+            readonly = ('invoice_id', 'client', 'date', 'currency', 'tax', 'hourly_rate')
+
+        return readonly
 
     def save_model(self, request, obj, form, change):
         obj.save()
         if obj.status in br_settings.INVOICE_FINISH_STATUS:
+            # Set the invoice id
+            if not obj.invoice_no:
+                invoice_list = Invoice.objects.filter(invoice_no__isnull=False).order_by('-invoice_no')
+                try:
+                    invoice = invoice_list[0]
+                except:
+                    # There are no numbered invoices
+                    invoice_no = getattr(br_settings, 'START_NUMBER', 1)
+                else:
+                    invoice_no = invoice.invoice_no + 1
+                obj.invoice_no = invoice_no
+                obj.save()
+
+            # Generate the pdf for this invoice
             context_dict = {'invoice': obj,
                             'client': obj.client,
                             'items': obj.items.all(),}

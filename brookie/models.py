@@ -47,14 +47,17 @@ class Invoice(models.Model):
                                       decimal_places=2,
                                       default=settings.INVOICE_HOURLY_RATE)
     items = generic.GenericRelation('Item')
-
+    invoice_no = models.PositiveIntegerField(_('invoice_no'),
+                                             blank=True,
+                                             null=True)
 
     class Meta:
         verbose_name = _('invoice')
         verbose_name_plural = _('invoices')
 
     def __unicode__(self):
-        return self.invoice_id
+        return '%(company)s - %(date)s' % {'company': self.client.company,
+                                           'date': self.date.strftime('%d-%m-%Y') }
 
     @property
     def total(self):
@@ -78,7 +81,7 @@ class Invoice(models.Model):
     @property
     def invoice_id(self):
         """ Unique invoice ID """
-        number = (settings.INVOICE_ID_LENGTH - len(str(self.id))) * "0" + str(self.id)
+        number = (settings.INVOICE_ID_LENGTH - len(str(self.invoice_no))) * "0" + str(self.invoice_no)
         return '%(prefix)s%(year)s%(unique_id)s' % {'prefix': settings.INVOICE_ID_PREFIX,
                                                     'year': self.date.strftime("%y"),
                                                     'unique_id': number}
@@ -89,7 +92,7 @@ class Invoice(models.Model):
         if self.total < 0:
             return True
         else: return False
-    
+
     @property
     def exp_date(self):
         """ Expiration date of the invoice """
@@ -118,7 +121,7 @@ class QuotePart(models.Model):
 
     class Meta:
         ordering = ('name',)
-    
+
     def __unicode__(self):
         return '%s' % self.name
 
@@ -177,6 +180,6 @@ class Item(models.Model):
         verbose_name = _('item')
         verbose_name_plural = _('items')
         ordering = ['date']
-    
+
     def __unicode__(self):
         return '%s' % self.description
