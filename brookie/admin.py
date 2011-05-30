@@ -117,7 +117,7 @@ class InvoiceAdmin(admin.ModelAdmin):
     list_display = ('client', 'status', 'date', total_monetized, is_expired, pdf_invoice)
     list_filter = ('status', 'client')
     exclude = ('invoice_no',)
-    ordering = ('id', )
+    ordering = ('-id', )
     search_fields = ['client__company', ]
     readonly_fields = ()
     inlines = [ItemInline,]
