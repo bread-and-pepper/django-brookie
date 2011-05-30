@@ -129,7 +129,7 @@ class InvoiceAdmin(admin.ModelAdmin):
         readonly = super(InvoiceAdmin, self).get_readonly_fields(request, obj)
 
         # if the invoice is send you can no longer alter it
-        if obj.status in br_settings.INVOICE_FINISH_STATUS:
+        if getattr(obj, 'status', None) in br_settings.INVOICE_FINISH_STATUS:
             readonly = ('invoice_id', 'client', 'date', 'currency', 'tax', 'hourly_rate')
 
         return readonly

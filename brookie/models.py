@@ -17,9 +17,9 @@ class Client(models.Model):
     zipcode = models.CharField(_('zipcode'), max_length=7)
     city = models.CharField(_('city'), max_length=128)
     country = models.CharField(_('country'), max_length=255)
-    tax_name = models.CharField(_('tax name'), max_length=255, blank=True)
-    tax_number = models.CharField(_('tax number'), max_length=255, blank=True)
-    additional_info = models.TextField(_('additional payment info'), blank=True)
+    tax_name = models.CharField(_('tax name'), max_length=255, blank=True, null=True)
+    tax_number = models.CharField(_('tax number'), max_length=255, blank=True, null=True)
+    additional_info = models.TextField(_('additional payment info'), blank=True, null=True)
 
     class Meta:
         verbose_name = _('client')
