@@ -12,7 +12,7 @@ to release it to the community so other small companies can manage their invoice
 
 - Reportlab
 - Pisa 3 [[link](http://pypi.python.org/pypi/pisa/)]
-- Django WMD-Editor [[link](http://github.com/stephrdev/django-admin-wmdeditor/tree/master)]
+- Django WMD-Editor [[link](http://github.com/zodman/django-admin-wmdeditor/tree/master)]
 
 # Todo
 

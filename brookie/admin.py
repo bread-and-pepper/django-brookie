@@ -14,6 +14,7 @@ from brookie import brookie_settings as br_settings
 from admin_wmdeditor import WmdEditorModelAdmin
 
 from datetime import datetime
+from decimal import Decimal
 
 def is_expired(self):
     """ Check if an invoice is expired """
@@ -115,7 +116,7 @@ class TaxAdmin(admin.ModelAdmin):
 
 class InvoiceAdmin(admin.ModelAdmin):
     list_display = ('client', 'status', 'date', total_monetized, is_expired, pdf_invoice)
-    list_filter = ('status', 'client')
+    list_filter = ('status', 'date')
     exclude = ('invoice_no',)
     ordering = ('-id', )
     search_fields = ['client__company', ]
@@ -133,6 +134,46 @@ class InvoiceAdmin(admin.ModelAdmin):
             readonly = ('invoice_id', 'client', 'date', 'currency', 'tax', 'hourly_rate')
 
         return readonly
+
+    def changelist_view(self, request, extra_context=None):
+        from django.contrib.admin.views.main import ChangeList
+        cl = ChangeList(request, self.model, list(self.list_display),
+                        self.list_display_links, self.list_filter,
+                        self.date_hierarchy, self.search_fields,
+                        self.list_select_related,
+                        self.list_per_page,
+                        self.list_editable,
+                        self)
+
+        total_per_currency = Decimal(0)
+        total_with_tax = Decimal(0)
+        total_dict = dict()
+        for item in cl.get_query_set():
+            if item.currency in total_dict:
+                # Currency in dict
+                total_dict[item.currency][0] += item.subtotal
+                total_dict[item.currency][1] += item.total
+            else:
+                # Currency not in dict
+                total_dict[item.currency] = [item.subtotal, item.total]
+
+
+        # Convert variables to currencies
+        for k,v in total_dict.items():
+            if k == 'euro':
+                new_value = (euro(v[0]), euro(v[1]))
+                total_dict[k] = new_value
+            elif k == 'gbp':
+                new_value = (pound(v[0]), pound(v[1]))
+                total_dict[k] = new_value
+            else:
+                new_value = (dollar(v[0]), dollar(v[1]))
+                total_dict[k] = new_value
+
+        extra_context = dict()
+        extra_context['total_dict'] = total_dict
+        return super(InvoiceAdmin, self).changelist_view(request,
+                                                         extra_context=extra_context)
 
     def save_model(self, request, obj, form, change):
         obj.save()
