@@ -157,7 +157,6 @@ class InvoiceAdmin(admin.ModelAdmin):
                 # Currency not in dict
                 total_dict[item.currency] = [item.subtotal, item.total]
 
-
         # Convert variables to currencies
         for k,v in total_dict.items():
             if k == 'euro':

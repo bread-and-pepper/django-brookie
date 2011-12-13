@@ -1,6 +1,6 @@
 {% extends "admin/base_site.html" %}
-{% load adminmedia admin_list i18n monetize %}
-{% load url from future %}
+{% load adminmedia admin_list i18n %}
+
 {% block extrastyle %}
   {{ block.super }}
   <link rel="stylesheet" type="text/css" href="{% admin_media_prefix %}css/changelists.css" />
@@ -8,7 +8,7 @@
     <link rel="stylesheet" type="text/css" href="{% admin_media_prefix %}css/forms.css" />
   {% endif %}
   {% if cl.formset or action_form %}
-    {% url 'admin:jsi18n' as jsi18nurl %}
+    {% url admin:jsi18n as jsi18nurl %}
     <script type="text/javascript" src="{{ jsi18nurl|default:'../../jsi18n/' }}"></script>
   {% endif %}
   {{ media.css }}
@@ -41,11 +41,11 @@
       <a href="../../">
         {% trans "Home" %}
       </a>
-       &rsaquo;
+       &rsaquo; 
        <a href="../">
          {{ app_label|capfirst }}
       </a>
-      &rsaquo;
+      &rsaquo; 
       {{ cl.opts.verbose_name_plural|capfirst }}
     </div>
   {% endblock %}
@@ -56,20 +56,16 @@
 {% block content %}
   <div id="content-main">
     {% block object-tools %}
-      <div id="statistics">
-        {% for k, v in total_dict.items %}
-        <h5>{% trans 'Total profit' %}: {{ v.0 }} {{ k }} (incl. tax {{ v.1 }} {{ k }})</h5>
-        {% endfor %}
-      </div>
+      {% for k, v in total_dict.items %}
+      <h5>{% trans 'Total profit' %}: {{ v.0 }} {{ k }} (incl. tax {{ v.1 }} {{ k }})</h5>
+      {% endfor %}
       {% if has_add_permission %}
         <ul class="object-tools">
-          {% block object-tools-items %}
-            <li>
-              <a href="add/{% if is_popup %}?_popup=1{% endif %}" class="addlink">
-                {% blocktrans with cl.opts.verbose_name as name %}Add {{ name }}{% endblocktrans %}
-              </a>
-            </li>
-          {% endblock %}
+          <li>
+            <a href="add/{% if is_popup %}?_popup=1{% endif %}" class="addlink">
+              {% blocktrans with cl.opts.verbose_name as name %}Add {{ name }}{% endblocktrans %}
+            </a>
+          </li>
         </ul>
       {% endif %}
     {% endblock %}
@@ -82,6 +78,7 @@
     <div class="module{% if cl.has_filters %} filtered{% endif %}" id="changelist">
       {% block search %}{% search_form cl %}{% endblock %}
       {% block date_hierarchy %}{% date_hierarchy cl %}{% endblock %}
+
       {% block filters %}
         {% if cl.has_filters %}
           <div id="changelist-filter">
@@ -90,10 +87,10 @@
           </div>
         {% endif %}
       {% endblock %}
-
+      
       <form id="changelist-form" action="" method="post"{% if cl.formset.is_multipart %} enctype="multipart/form-data"{% endif %}>{% csrf_token %}
       {% if cl.formset %}
-        <div>{{ cl.formset.management_form }}</div>
+        {{ cl.formset.management_form }}
       {% endif %}
 
       {% block result_list %}
