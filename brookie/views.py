@@ -24,7 +24,10 @@ def fetch_resources(uri, rel):
     `rel` gives a relative path, but it's not used here.
 
     """
-    path = os.path.join(settings.MEDIA_ROOT, uri.replace(settings.MEDIA_URL, ""))
+    if 'django.contrib.staticfiles' in settings.INSTALLED_APPS:
+        path = os.path.join(settings.STATIC_ROOT, uri.replace(settings.STATIC_URL, ""))
+    else:
+        path = os.path.join(settings.MEDIA_ROOT, uri.replace(settings.MEDIA_URL, ""))
     return path
 
 def generate_pdf(filename, context_dict, template, save=False):
