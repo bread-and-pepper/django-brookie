@@ -68,9 +68,10 @@ class ItemInline(generic.GenericTabularInline):
         # if the invoice is send you can no longer alter it
         # Still working on this on
         if hasattr(obj, 'status') and obj.status in br_settings.INVOICE_FINISH_STATUS:
-            self.max_num = obj.items.all().count()
+            #self.max_num = obj.items.all().count()
             self.can_delete = False
         #    readonly = ('date', 'description', 'time', 'amount')
+
         return readonly
 
 class QuoteItemInline(generic.GenericTabularInline):
