@@ -62,15 +62,17 @@ pdf_invoice.allow_tags = True
 class ItemInline(generic.GenericTabularInline):
     model = Item
 
+    def get_formset(self, request, obj=None):
+        formset = super(ItemInline, self).get_formset(request, obj)
+
+        if obj is not None and obj.status in br_settings.INVOICE_FINISH_STATUS:
+            formset.max_num = 0
+        return formset
+
     def get_readonly_fields(self, request, obj=None):
         readonly = super(ItemInline, self).get_readonly_fields(request, obj)
 
-        # if the invoice is send you can no longer alter it
-        # Still working on this on
-        if hasattr(obj, 'status') and obj.status in br_settings.INVOICE_FINISH_STATUS:
-            #self.max_num = obj.items.all().count()
-            self.can_delete = False
-        #    readonly = ('date', 'description', 'time', 'amount')
+       #    readonly = ('date', 'description', 'time', 'amount')
 
         return readonly
 
@@ -186,8 +188,8 @@ class InvoiceAdmin(admin.ModelAdmin):
                 except:
                     # There are no numbered invoices
                     invoice_no = getattr(br_settings, 'INVOICE_START_NUMBER', 1)
-                else:
-                    invoice_no = invoice.invoice_no + 1
+            else:
+                invoice_no = invoice.invoice_no + 1
                 obj.invoice_no = invoice_no
                 obj.save()
 
