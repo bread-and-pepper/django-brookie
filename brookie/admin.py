@@ -181,15 +181,14 @@ class InvoiceAdmin(admin.ModelAdmin):
         obj.save()
         if obj.status in br_settings.INVOICE_FINISH_STATUS:
             # Set the invoice id
-            if not obj.invoice_no:
+            if obj.invoice_no is None:
                 invoice_list = Invoice.objects.filter(invoice_no__isnull=False).order_by('-invoice_no')
                 try:
                     invoice = invoice_list[0]
+                    invoice_no = invoice.invoice_no + 1
                 except:
                     # There are no numbered invoices
                     invoice_no = getattr(br_settings, 'INVOICE_START_NUMBER', 1)
-            else:
-                invoice_no = invoice.invoice_no + 1
                 obj.invoice_no = invoice_no
                 obj.save()
 
