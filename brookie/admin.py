@@ -165,7 +165,7 @@ class InvoiceAdmin(admin.ModelAdmin):
             if total > 0:
                 subtotal = decimal_to_string(subtotal, currency)
                 total = decimal_to_string(total, currency)
-                total_dict[currency] = [subtotal, total]
+                total_dict[description.lower()] = [subtotal, total]
 
             subtotal = Decimal(0)
             total = Decimal(0)
@@ -178,7 +178,7 @@ class InvoiceAdmin(admin.ModelAdmin):
             if total > 0:
                 subtotal = decimal_to_string(subtotal, currency)
                 total = decimal_to_string(total, currency)
-                outstanding_dict[currency] = [subtotal, total]
+                outstanding_dict[description.lower()] = [subtotal, total]
 
         extra_context = dict()
         extra_context['total_dict'] = total_dict
