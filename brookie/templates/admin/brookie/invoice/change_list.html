@@ -56,9 +56,23 @@
 {% block content %}
   <div id="content-main">
     {% block object-tools %}
+    <div style="width: 100%; height: 100px;">  
       {% for k, v in total_dict.items %}
-      <h5>{% trans 'Total profit' %}: {{ v.0 }} {{ k }} (incl. tax {{ v.1 }} {{ k }})</h5>
+      <div class="float-left" {% if not forloop.first %}style="margin-left: 20px;"{% endif %}>
+        <h5>{% trans 'Total turnover' %}</h5>
+        <h1>&{{ k }}; {{ v.0 }}</h1>
+        <p class="mini">(&{{ k }}; {{ v.1 }} incl. tax)</p>
+      </div>
       {% endfor %}
+
+      {% for k, v in outstanding_dict.items %}
+      <div class="float-left" style="margin-left: 20px;">
+        <h5>{% trans 'Total outstanding' %}</h5>
+        <h1>&{{ k }}; {{ v.0 }}</h1>
+        <p class="mini">(&{{ k }}; {{ v.1 }} incl. tax)</p>
+      </div>
+      {% endfor %}
+    </div> 
       {% if has_add_permission %}
         <ul class="object-tools">
           <li>

@@ -8,6 +8,7 @@ from django.core.urlresolvers import reverse
 
 from brookie.models import Client, Invoice, Tax, Quote, Item, QuotePart
 from brookie.templatetags.monetize import euro, pound, sek
+from brookie.utils import decimal_to_string
 from brookie.views import generate_pdf
 from brookie import brookie_settings as br_settings
 
@@ -148,32 +149,40 @@ class InvoiceAdmin(admin.ModelAdmin):
                         self.list_editable,
                         self)
 
-        total_per_currency = Decimal(0)
-        total_with_tax = Decimal(0)
-        total_dict = dict()
-        for item in cl.get_query_set():
-            if item.currency in total_dict:
-                # Currency in dict
-                total_dict[item.currency][0] += item.subtotal
-                total_dict[item.currency][1] += item.total
-            else:
-                # Currency not in dict
-                total_dict[item.currency] = [item.subtotal, item.total]
 
-        # Convert variables to currencies
-        for k,v in total_dict.items():
-            if k == 'euro':
-                new_value = (euro(v[0]), euro(v[1]))
-                total_dict[k] = new_value
-            elif k == 'gbp':
-                new_value = (pound(v[0]), pound(v[1]))
-                total_dict[k] = new_value
-            else:
-                new_value = (dollar(v[0]), dollar(v[1]))
-                total_dict[k] = new_value
+        total_dict = dict()
+        outstanding_dict = dict()
+        for currency, description in br_settings.INVOICE_CURRENCY_CHOICES:
+            # Determine total and subtotal
+            subtotal = Decimal(0)
+            total = Decimal(0)
+            for invoice in cl.get_query_set().filter(status=4,
+                                                     currency=currency):
+                subtotal += invoice.subtotal
+                total += invoice.total
+
+            # Add to dictionary
+            if total > 0:
+                subtotal = decimal_to_string(subtotal, currency)
+                total = decimal_to_string(total, currency)
+                total_dict[currency] = [subtotal, total]
+
+            subtotal = Decimal(0)
+            total = Decimal(0)
+            for invoice in cl.get_query_set().filter(status__in=[1, 2, 3],
+                                                     currency=currency):
+                subtotal += invoice.subtotal
+                total += invoice.total
+
+            # Add to dictionary
+            if total > 0:
+                subtotal = decimal_to_string(subtotal, currency)
+                total = decimal_to_string(total, currency)
+                outstanding_dict[currency] = [subtotal, total]
 
         extra_context = dict()
         extra_context['total_dict'] = total_dict
+        extra_context['outstanding_dict'] = outstanding_dict
         return super(InvoiceAdmin, self).changelist_view(request,
                                                          extra_context=extra_context)
 

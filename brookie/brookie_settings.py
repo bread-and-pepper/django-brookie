@@ -19,7 +19,7 @@ INVOICE_HOURLY_RATE =  getattr(settings, 'INVOICE_HOURLY_RATE', 50.00)
 
 # Invoice status choices.
 INVOICE_STATUS_CHOICES =  getattr(settings, 'INVOICE_STATUS_CHOICES', ((1, ugettext('Under development')),
-                                                                      (2, ugettext('Send')),
+                                                                      (2, ugettext('Sent')),
                                                                       (3, ugettext('Reminded')),
                                                                       (4, ugettext('Payed'))))
 
@@ -44,7 +44,7 @@ QUOTE_ID_PREFIX = getattr(settings, 'QUOTE_ID_PREFIX', "BRQ")
 
 # Quote status possibilities.
 QUOTE_STATUS_CHOICES = getattr(settings, 'QUOTE_STATUS_CHOICES', ((1, ugettext('Draft')),
-                                                                 (2, ugettext('Send')),
+                                                                 (2, ugettext('Sent')),
                                                                  (3, ugettext('Declined')),
                                                                  (4, ugettext('Accepted'))))
 
