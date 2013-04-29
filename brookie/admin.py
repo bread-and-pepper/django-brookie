@@ -38,12 +38,14 @@ is_expired.short_description = _('Payed?')
 is_expired.allow_tags = True
 
 def total_monetized(self):
-    """ Shows currency in admin, currently only euro's, pounds, sek and dollars """
+    """ Shows currency in admin, currently only euro's, pounds, sgp, sek and dollars """
     if self.currency == 'euro':
         return '&euro; %s' % euro(self.total)
     elif self.currency == 'gbp':
         return '&pound; %s' % pound(self.total)
     elif self.currency == 'dollar':
+        return '&dollar; %s' % pound(self.total)
+    if self.currency == 'sgp':
         return '&dollar; %s' % pound(self.total)
     elif self.currency == 'sek':
         return '&kronor; %s' % sek(self.total)
